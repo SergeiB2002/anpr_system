@@ -37,7 +37,6 @@ anpr_system/
 │   │   ├── control.py  
 │   │   └── notificator.py  
 │   └── reporting/  
-│   └── reporting/
 │       ├── report_generator.py  
 │       └── dashboard.py  
 └── scripts/  
