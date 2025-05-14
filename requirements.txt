@@ -1,0 +1,19 @@
+opencv-python-headless
+numpy
+scikit-image
+pydantic
+PyYAML
+uvicorn
+fastapi
+sqlalchemy[asyncio]
+asyncpg
+torch
+ultralytics
+pytesseract
+reportlab
+openpyxl
+jinja2
+psycopg2-binary
+RPi.GPIO  # for Raspberry Pi GPIO
+pydub      # for audio notifications
+plotly

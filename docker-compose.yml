@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  anpr:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      RTSP_URL: ${RTSP_URL}
+      LIGHT_SENSOR_ENDPOINT: ${LIGHT_SENSOR_ENDPOINT}
+    depends_on:
+      - db
+    networks:
+      - anpr_net
+  db:
+    image: postgres:14
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - anpr_net
+networks:
+  anpr_net:
+volumes:
+  db_data:
