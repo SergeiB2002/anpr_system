@@ -23,10 +23,23 @@ anpr_system/
 │   └── camera_settings.yml  
 ├── modules/  
 │   ├── video_capture/  
+│   │   ├── capture.py  
+│   │   ├── preprocessing.py  
+│   │   └── metrics.py  
 │   ├── ocr_engine/  
+│   │   ├── detection.py  
+│   │   ├── recognition.py  
+│   │   └── postprocessing.py  
 │   ├── db_manager/  
+│   │   ├── models.py  
+│   │   └── crud.py  
 │   ├── access_control/  
+│   │   ├── control.py  
+│   │   └── notificator.py  
 │   └── reporting/  
+│   └── reporting/
+│       ├── report_generator.py  
+│       └── dashboard.py  
 └── scripts/  
     └── init_db.sql  
 
