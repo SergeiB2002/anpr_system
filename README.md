@@ -13,34 +13,22 @@
 - Развёртывание в Docker
 
 ## Структура проекта
-anpr_system/
-├── docker-compose.yml
-├── Dockerfile
-├── requirements.txt
-├── entrypoint.py
-├── config/
-│   ├── config.yaml
-│   └── camera_settings.yml
-├── modules/
-│   ├── video_capture/
-│   │   ├── capture.py
-│   │   ├── preprocessing.py
-│   │   └── metrics.py
-│   ├── ocr_engine/
-│   │   ├── detection.py
-│   │   ├── recognition.py
-│   │   └── postprocessing.py
-│   ├── db_manager/
-│   │   ├── models.py
-│   │   └── crud.py
-│   ├── access_control/
-│   │   ├── control.py
-│   │   └── notificator.py
-│   └── reporting/
-│       ├── report_generator.py
-│       └── dashboard.py
-└── scripts/
-    └── init_db.sql
+anpr_system/  
+├── docker-compose.yml  
+├── Dockerfile  
+├── requirements.txt  
+├── entrypoint.py  
+├── config/  
+│   ├── config.yaml  
+│   └── camera_settings.yml  
+├── modules/  
+│   ├── video_capture/  
+│   ├── ocr_engine/  
+│   ├── db_manager/  
+│   ├── access_control/  
+│   └── reporting/  
+└── scripts/  
+    └── init_db.sql  
 
 ## Описание модулей
 - video_capture: захват и предобработка кадра, вычисление метрик качества
