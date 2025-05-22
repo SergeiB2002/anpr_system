@@ -1,28 +1,43 @@
 version: "3.8"
+
 services:
   anpr:
     build: .
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
     volumes:
       - .:/app
-    environment:
-      DATABASE_URL: ${DATABASE_URL}
-      RTSP_URL: ${RTSP_URL}
-      LIGHT_SENSOR_ENDPOINT: ${LIGHT_SENSOR_ENDPOINT}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
     networks:
       - anpr_net
+
   db:
     image: postgres:14
+    env_file:
+      - .env
     volumes:
       - db_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
     networks:
       - anpr_net
-networks:
-  anpr_net:
+
 volumes:
   db_data:
+
+networks:
+  anpr_net:
