@@ -36,6 +36,8 @@ anpr_system/
 │   ├── access_control/  
 │   │   ├── control.py  
 │   │   └── notificator.py  
+│   ├── notifications/         # Новый модуль
+│   │   └── telegram.py        # Telegram-уведомления
 │   └── reporting/  
 │       ├── report_generator.py  
 │       └── dashboard.py  
