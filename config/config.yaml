@@ -1,0 +1,14 @@
+database:
+  url: ${DATABASE_URL}
+cameras:
+  - name: front_gate
+    rtsp: ${RTSP_URL}
+light_sensor:
+  endpoint: ${LIGHT_SENSOR_ENDPOINT}
+ocr:
+  languages: ["eng","rus"]
+notifications:
+  telegram_token: ${TELEGRAM_TOKEN}
+  telegram_chat_id: ${TELEGRAM_CHAT_ID}
+reporting:
+  daily_report_time: "02:00"

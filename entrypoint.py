@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
 import os
+#!/usr/bin/env python3
+import os
 import asyncio
 import yaml
+import logging
 import logging
 from fastapi import FastAPI
 from dotenv import load_dotenv
 
-# локальные модули
+# модули
 from modules.video_capture.capture import start_capture
 from modules.ocr_engine.detection import detect_plate
 from modules.ocr_engine.recognition import ocr_read
 from modules.db_manager.crud import verify_plate
 from modules.access_control.control import trigger_barrier
 from modules.access_control.notificator import play_sound
+from modules.notifications.telegram import send_alert  # новый импорт
 
-# подгружаем .env
+# загружаем переменные окружения
 load_dotenv()
 
 # логирование
@@ -29,27 +33,39 @@ app = FastAPI()
 # читаем конфиг
 config_path = os.getenv("CONFIG_PATH", "config/config.yaml")
 with open(config_path, "r") as f:
+# читаем конфиг
+config_path = os.getenv("CONFIG_PATH", "config/config.yaml")
+with open(config_path, "r") as f:
     cfg = yaml.safe_load(f)
 
 @app.on_event("startup")
+async def startup_event():
+    logger.info("Запуск задачи video_capture")
 async def startup_event():
     logger.info("Запуск задачи video_capture")
     asyncio.create_task(start_capture(cfg))
 
 @app.get("/health")
 async def health():
+async def health():
     return {"status": "ok"}
 
 @app.post("/process_frame")
 async def process_frame():
-    frame, mask = detect_plate()  # захват из модуля video_capture
+    frame, mask = detect_plate()
     text, conf = ocr_read(frame, mask, cfg["ocr"]["languages"])
     status = await verify_plate(text)
+
     if status == "VALID":
         trigger_barrier()
         play_sound(os.getenv("ACCESS_GRANTED_SOUND", "sounds/access_granted.mp3"))
+        play_sound(os.getenv("ACCESS_GRANTED_SOUND", "sounds/access_granted.mp3"))
     else:
+        # уведомляем админа через Telegram
+        alert_msg = f"[ANPR ALERT] Номер: {text}, статус: {status}, confidence: {conf:.2f}"
+        send_alert(alert_msg)
         play_sound(os.getenv("ACCESS_DENIED_SOUND", "sounds/access_denied.mp3"))
+
     return {"plate": text, "confidence": conf, "status": status}
 
 if __name__ == "__main__":
